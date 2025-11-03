@@ -7,7 +7,7 @@ const jobMap = new Map();
 function addJobToMap(job) {
   const ts = job.timestamp;
   if (!ts) {
-    console.error("❌ Tried to add job with no timestamp:", job);
+    console.error(" Tried to add job with no timestamp:", job);
     return;
   }
 
@@ -23,17 +23,17 @@ async function loadJobsFromDB() {
 
   futureJobs.forEach(job => {
     addJobToMap(job);
-    console.log(`📦 Loaded job: ${job.name} scheduled at ${job.timestamp}`);
+    console.log(` Loaded job: ${job.name} scheduled at ${job.timestamp}`);
   });
 
-  console.log(`✅ Total ${futureJobs.length} jobs loaded into jobMap.`);
+  console.log(` Total ${futureJobs.length} jobs loaded into jobMap.`);
 }
 
 
 
 async function removeJobFromMap(name, timestamp) {
   if (!name || !timestamp) {
-    console.error('❌ Name and timestamp are required.');
+    console.error(' Name and timestamp are required.');
     return;
   }
 
@@ -43,25 +43,25 @@ async function removeJobFromMap(name, timestamp) {
 
     if (updatedJobs.length === 0) {
       jobMap.delete(timestamp);
-      console.log(`✅ All jobs at timestamp ${timestamp} removed from map.`);
+      console.log(`All jobs at timestamp ${timestamp} removed from map.`);
     } else {
       jobMap.set(timestamp, updatedJobs);
-      console.log(`✅ Job "${name}" removed from timestamp ${timestamp} in map.`);
+      console.log(`Job "${name}" removed from timestamp ${timestamp} in map.`);
     }
   } else {
-    console.log(`ℹ️ No jobs found at timestamp ${timestamp} in jobMap, proceeding with DB deletion.`);
+    console.log(`No jobs found at timestamp ${timestamp} in jobMap, proceeding with DB deletion.`);
   }
 
   
   try {
     const result = await Job.deleteOne({ name, timestamp });
     if (result.deletedCount > 0) {
-      console.log(`✅ Job "${name}" removed from the database.`);
+      console.log(`Job "${name}" removed from the database.`);
     } else {
-      console.warn(`⚠️ No job found in DB with name "${name}" and timestamp ${timestamp}.`);
+      console.warn(` No job found in DB with name "${name}" and timestamp ${timestamp}.`);
     }
   } catch (err) {
-    console.error(`❌ Error removing job from DB: ${err.message}`);
+    console.error(`Error removing job from DB: ${err.message}`);
   }
 }
 
@@ -91,10 +91,10 @@ function rescheduleJob(job) {
     
       Job.create(newJob)
         .then(savedJob => {
-          console.log(`🔁 Rescheduled job "${savedJob.name}" to timestamp ${newTimestamp}`);
+          console.log(` Rescheduled job "${savedJob.name}" to timestamp ${newTimestamp}`);
         })
         .catch(err => {
-          console.error(`❌ Failed to save rescheduled job "${newJob.name}":`, err);
+          console.error(`Failed to save rescheduled job "${newJob.name}":`, err);
         });
     }
   }
