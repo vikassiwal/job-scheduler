@@ -10,7 +10,7 @@ module.exports = (io) => {
   async function addToQueue(job) {
     try {
       jobQueue.push(job);
-      console.log(`📝 Job "${job.name}" added to the queue`);
+      console.log(`Job "${job.name}" added to the queue`);
 
      
       const jobToSave = { ...job };
@@ -18,14 +18,14 @@ module.exports = (io) => {
 
       const newJob = new Job(jobToSave);
       await newJob.save();
-      console.log(`📝 Job "${job.name}" saved to the database`);
+      console.log(`Job "${job.name}" saved to the database`);
       
       
       if (!isProcessing) {
         processQueue();
       }
     } catch (error) {
-      console.error(`❌ Failed to add job "${job.name}":`, error);
+      console.error(`Failed to add job "${job.name}":`, error);
     }
   }
 
@@ -35,7 +35,7 @@ module.exports = (io) => {
 
     while (jobQueue.length > 0) {
       const job = jobQueue.shift();
-      console.log(`⚙️ Executing job: "${job.name}"`);
+      console.log(`Executing job: "${job.name}"`);
 
       await executeJob(job);
 
@@ -58,14 +58,14 @@ module.exports = (io) => {
       const command = job.payload.command;
 
       if (!command) {
-        console.error(`❌ Invalid command for job: "${job.name}"`);
+        console.error(`Invalid command for job: "${job.name}"`);
         io.emit('job-result', { jobId: job._id, name: job.name, command, success: false, message: 'No command provided' });
         return resolve();
       }
 
       exec(command, (error, stdout, stderr) =>{
         if (error) {
-          console.error(`❌ Execution failed for "${job.name}": ${error.message}`);
+          console.error(` Execution failed for "${job.name}": ${error.message}`);
           io.emit('job-result', {
             jobId: job._id,
             name: job.name,
@@ -77,7 +77,7 @@ module.exports = (io) => {
         }
 
         if (stderr && stderr.toLowerCase().includes('error')) {
-          console.error(`❌ stderr output in "${job.name}": ${stderr}`);
+          console.error(`stderr output in "${job.name}": ${stderr}`);
           io.emit('job-result', {
             jobId: job._id,
             name: job.name,
@@ -86,7 +86,7 @@ module.exports = (io) => {
             message: `Error in output: ${stderr}`
           });
         } else {
-          console.log(`✅ Job "${job.name}" executed:\n${stdout}`);
+          console.log(`Job "${job.name}" executed:\n${stdout}`);
           io.emit('job-result', {
             jobId: job._id,
             name: job.name,
