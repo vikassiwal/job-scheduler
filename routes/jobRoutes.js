@@ -44,7 +44,7 @@ router.post('/remove-job', async (req, res) => {
   router.post('/delete-job', async (req, res) => {
     try {
       const { name, timestamp } = req.body;
-      console.log("🗑️ Delete request received for:", { name, timestamp });
+      console.log(" Delete request received for:", { name, timestamp });
   
       if (!name || !timestamp) {
         return res.status(400).json({ success: false, message: 'Missing name or timestamp' });
@@ -59,7 +59,7 @@ router.post('/remove-job', async (req, res) => {
       // Remove from database
       const result = await Job.deleteOne({ name, timestamp: ts });
       if (result.deletedCount === 0) {
-        console.warn(`⚠️ No job found in DB with name "${name}" and timestamp ${ts}`);
+        console.warn(` No job found in DB with name "${name}" and timestamp ${ts}`);
       }
   
       
