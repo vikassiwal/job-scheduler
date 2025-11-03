@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Job Scheduler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        .register-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-container {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    
+    <div class="container my-5">
+        <div class="register-container">
+            <div class="register-header">
+                <h2>Create an Account</h2>
+                <p class="text-muted">Fill out the form to create your account</p>
+            </div>
+            
+            <div class="form-container">
+                <div id="error-alert" class="alert alert-danger" style="display: none;"></div>
+                
+                <form id="register-form">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" required>
+                        <div class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" required>
+                        <div class="form-text">Password must be at least 6 characters long.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" required>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                        <label class="form-check-label" for="termsCheck">I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a></label>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+                
+                <div class="mt-3 text-center">
+                    <p>Already have an account? <a href="/login">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorAlert = document.getElementById('error-alert');
+            
+            // Password validation
+            if (password.length < 6) {
+                errorAlert.textContent = 'Password must be at least 6 characters long';
+                errorAlert.style.display = 'block';
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                errorAlert.textContent = 'Passwords do not match';
+                errorAlert.style.display = 'block';
+                return;
+            }
+            try {
+    console.log('Sending registration data:', { name, email, password: '****' });
+    const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, password })
+    });
+    
+    console.log('Registration response status:', response.status);
+    const data = await response.json();
+    console.log('Registration response data:', data);
+    
+    if (response.ok) {
+        // Store token in localStorage
+        localStorage.setItem('token', data.token);
+        
+        // Redirect to profile page
+        window.location.href = '/profile';
+    } else {
+        // Show detailed error message
+        errorAlert.textContent = data.message || 'Registration failed';
+        if (data.error) {
+            errorAlert.textContent += `: ${data.error}`;
+        }
+        errorAlert.style.display = 'block';
+    }
+} catch (error) {
+    console.error('Registration error:', error);
+    errorAlert.textContent = 'An error occurred during registration. Please check the console for details.';
+    errorAlert.style.display = 'block';
+}
+        });
+    </script>
+</body>
+</html>

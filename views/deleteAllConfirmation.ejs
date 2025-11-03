@@ -1,0 +1,47 @@
+
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-body p-5">
+                    <h1 class="display-6 mb-4">Delete All Jobs?</h1>
+                    <p class="lead text-danger">This will permanently remove all scheduled jobs from the database. Are you sure?</p>
+                    
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                        <button id="confirmDelete" class="btn btn-danger btn-lg px-4">
+                            <i class="fas fa-trash-alt me-2"></i>Yes, Delete All
+                        </button>
+                        <a href="/dashboard" class="btn btn-secondary btn-lg px-4">
+                            <i class="fas fa-arrow-left me-2"></i>No, Go Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
+
+<script>
+    document.getElementById('confirmDelete').addEventListener('click', () => {
+        fetch('/api/delete-all-jobs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/'; 
+            } else {
+                alert('Something went wrong, bro! Try again.');
+            }
+        })
+        .catch(err => {
+            console.error('Delete failed, bro:', err);
+            alert('Error deleting jobs, dude!');
+        });
+    });
+</script>

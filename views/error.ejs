@@ -1,0 +1,25 @@
+<!-- views/error.ejs -->
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-body p-5">
+                    <h1 class="display-4 mb-4 text-danger"><i class="fas fa-exclamation-triangle"></i></h1>
+                    <h2><%= title %></h2>
+                    <p class="lead"><%= message %></p>
+                    
+                    <div class="mt-4">
+                        <a href="/" class="btn btn-primary">
+                            <i class="fas fa-home me-2"></i>Go Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

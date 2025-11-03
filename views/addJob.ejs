@@ -1,0 +1,78 @@
+<!-- views/addJob.ejs -->
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+
+  
+
+<div class="container mt-5 pt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Add New Job</h4>
+                </div>
+                <div class="card-body">
+                    <form id="addJobForm" method="POST" action="/api/add-job">
+                        <div class="mb-3">
+                            <label for="jobName" class="form-label">Job Name</label>
+                            <input type="text" class="form-control" id="jobName" name="name" required>
+                            <div class="form-text">Provide a unique name for this job</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Job Type</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="type" id="oneTime" value="one-time" checked>
+                                <label class="form-check-label" for="oneTime">
+                                    One-time Job
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="type" id="recurring" value="recurring">
+                                <label class="form-check-label" for="recurring">
+                                    Recurring Job
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="jobDateTime" class="form-label">Execution Time</label>
+                            <input type="datetime-local" class="form-control" id="jobDateTime" name="datetime" required>
+                            <div class="form-text">When should this job run?</div>
+                        </div>
+
+                        <div class="mb-3" id="intervalContainer" style="display: none;">
+                            <label for="interval" class="form-label">Repeat Interval (seconds)</label>
+                            <input type="number" class="form-control" id="interval" name="interval" min="1">
+                            <div class="form-text">How often should this job repeat?</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="command" class="form-label">Command</label>
+                            <textarea class="form-control" id="command" name="payload[command]" rows="3" required></textarea>
+
+                            <div class="form-text">The shell command to execute</div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calendar-plus me-2"></i>Schedule Job
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="alert alert-success mt-3" id="successAlert" style="display: none;">
+                <i class="fas fa-check-circle me-2"></i>Job scheduled successfully!
+            </div>
+            
+            <div class="alert alert-danger mt-3" id="errorAlert" style="display: none;">
+                <i class="fas fa-exclamation-circle me-2"></i>Error scheduling job. Please try again.
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

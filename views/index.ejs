@@ -1,0 +1,57 @@
+
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-body p-5">
+                    <h1 class="display-4 mb-4">Job Scheduler</h1>
+                    <p class="lead">A powerful application to schedule and manage your recurring and one-time tasks</p>
+                    
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                        <a href="/dashboard" class="btn btn-primary btn-lg px-4 gap-3">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                        <a href="/add-job" class="btn btn-outline-primary btn-lg px-4">
+                            <i class="fas fa-plus-circle me-2"></i>Add New Job
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-clock fa-3x text-primary mb-3"></i>
+                            <h3>One-time Jobs</h3>
+                            <p>Schedule tasks to run once at a specific time</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-sync fa-3x text-primary mb-3"></i>
+                            <h3>Recurring Jobs</h3>
+                            <p>Set up tasks that repeat at regular intervals</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-terminal fa-3x text-primary mb-3"></i>
+                            <h3>Command Execution</h3>
+                            <p>Run shell commands automatically</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

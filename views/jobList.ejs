@@ -1,0 +1,77 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container mt-5 pt-3">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1><i class="fas fa-list me-2"></i>All Jobs</h1>
+            <p class="lead">Complete list of all scheduled jobs</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="/add-job" class="btn btn-primary">
+                <i class="fas fa-plus-circle me-1"></i> Add New Job
+            </a>
+            <% if (user && user.isAdmin) { %> <!-- Show only for admins -->
+                <a href="/delete-all-jobs" class="btn btn-danger ms-2">
+                    <i class="fas fa-trash-alt me-1"></i> Delete All Jobs
+                </a>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Job List
+        </div>
+        <div class="card-body">
+            <% if (jobs && jobs.length > 0) { %>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" id="jobsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Execution Time</th>
+                                <th>Command</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% jobs.forEach(job => { %>
+                                <tr>
+                                    <td><%= job.name %></td>
+                                    <td>
+                                        <% if (job.type === 'one-time') { %>
+                                            <span class="badge bg-success">One-time</span>
+                                        <% } else { %>
+                                            <span class="badge bg-info">Recurring</span>
+                                            <small class="d-block mt-1">Every <%= job.interval %> sec</small>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <%= new Date(job.timestamp * 1000).toLocaleString() %>
+                                    </td>
+                                    <td><code><%= job.payload.command %></code></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger remove-job" 
+                                                data-name="<%= job.name %>" 
+                                                data-timestamp="<%= job.timestamp %>">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <div class="alert alert-info">
+                    No jobs found. <a href="/add-job">Add a new job</a> to get started.
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
