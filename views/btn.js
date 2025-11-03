@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
          
           this.closest("tr").remove();
         } else {
-          alert("❌ Failed to delete the job.");
+          alert(" Failed to delete the job.");
         }
       });
     });
