@@ -8,12 +8,12 @@ module.exports = (addToQueue) => {
 
       const jobsToRun = jobMap.get(currentTime);
       if (jobsToRun && jobsToRun.length > 0) {
-        console.log(`⏰ Found ${jobsToRun.length} job(s) at ${currentTime}`);
+        console.log(`Found ${jobsToRun.length} job(s) at ${currentTime}`);
 
       
         for (const job of jobsToRun) {
           if (!job || !job._id) {
-            console.error("❌ Skipping invalid job:", job);
+            console.error("Skipping invalid job:", job);
             continue;
         }  
 
@@ -42,7 +42,7 @@ module.exports = (addToQueue) => {
            
             existingJobs.push({ ...jobObject, timestamp: nextTime });
 
-            console.log(`🔁 Rescheduled recurring job "${jobObject.name}" for ${nextTime}`);
+            console.log(`Rescheduled recurring job "${jobObject.name}" for ${nextTime}`);
           }
         }
 
